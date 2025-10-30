@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.daniel.backend.usersapp.backend_usersapp.models.entities.User;
-import com.daniel.backend.usersapp.backend_usersapp.models.entities.UserRequest;
+import com.daniel.backend.usersapp.backend_usersapp.models.request.UserRequest;
 import com.daniel.backend.usersapp.backend_usersapp.services.UserService;
 
 import jakarta.validation.Valid;

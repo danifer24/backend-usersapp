@@ -21,7 +21,7 @@ public class User {
 
     @NotBlank
     @Size(min = 4, max = 8)
-    @Column(unique= true)
+    @Column(unique = true)
     private String username;
 
     @NotBlank
@@ -29,7 +29,7 @@ public class User {
 
     @NotBlank
     @Email
-    @Column
+    @Column(unique = true)
     private String email;
 
     public Long getId() {

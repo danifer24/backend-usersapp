@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.daniel.backend.usersapp.backend_usersapp.models.entities.User;
-import com.daniel.backend.usersapp.backend_usersapp.models.entities.UserRequest;
+import com.daniel.backend.usersapp.backend_usersapp.models.request.UserRequest;
 
 public interface UserService {
 
