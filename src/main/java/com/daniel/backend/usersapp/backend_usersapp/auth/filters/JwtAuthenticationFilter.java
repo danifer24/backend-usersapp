@@ -12,6 +12,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.daniel.backend.usersapp.backend_usersapp.models.entities.User;
+import static com.daniel.backend.usersapp.backend_usersapp.auth.TokenJwtConfig.*;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -59,8 +60,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String username = ((org.springframework.security.core.userdetails.User) authResult.getPrincipal())
                 .getUsername();
         String token = Base64.getEncoder()
-                .encodeToString(("algun_token_con_alguna_frase_o_palabra_secreta." + username).getBytes());
-        response.addHeader("Authorization", "Bearer " + token);
+                .encodeToString((SECRET_KEY + "." + username).getBytes());
+        response.addHeader(HEADER_AUTHORIZATION, PREFIX_TOKEN + token);
 
         Map<String, Object> body = new HashMap<>();
         body.put("token", token);
