@@ -1,6 +1,7 @@
 package com.daniel.backend.usersapp.backend_usersapp.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.graphql.GraphQlProperties.Http;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -35,6 +36,11 @@ public class SpringSecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests()
         .requestMatchers(HttpMethod.GET, "/users").permitAll()
+        .requestMatchers(HttpMethod.GET, "/users/{id}").hasAnyRole("USER", "ADMIN")
+        .requestMatchers(HttpMethod.POST, "/users").hasRole("ADMIN")
+        .requestMatchers( "/users/**").hasRole("ADMIN")
+        // .requestMatchers(HttpMethod.DELETE, "/users/{id}").hasRole("ADMIN")
+        // .requestMatchers(HttpMethod.PUT, "/users/{id}").hasRole("ADMIN")
         .anyRequest().authenticated()
         .and()
         .addFilter(new JwtAuthenticationFilter(authenticationConfiguration.getAuthenticationManager()))
