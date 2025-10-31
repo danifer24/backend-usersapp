@@ -36,6 +36,11 @@ public class JwtValidationFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            chain.doFilter(request, response);
+            return;
+        }
+
         String header = request.getHeader(HEADER_AUTHORIZATION);
 
         if (header == null || !header.startsWith(PREFIX_TOKEN)) {
@@ -66,7 +71,7 @@ public class JwtValidationFilter extends BasicAuthenticationFilter {
             body.put("message", "El token JWT no es valido");
 
             response.getWriter().write(new ObjectMapper().writeValueAsString(body));
-            response.setStatus(403);
+            response.setStatus(401);
             response.setContentType("application/json");
         }
     }
