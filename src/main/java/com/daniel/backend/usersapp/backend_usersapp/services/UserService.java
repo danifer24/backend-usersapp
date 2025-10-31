@@ -3,17 +3,18 @@ package com.daniel.backend.usersapp.backend_usersapp.services;
 import java.util.List;
 import java.util.Optional;
 
+import com.daniel.backend.usersapp.backend_usersapp.models.dto.UserDto;
 import com.daniel.backend.usersapp.backend_usersapp.models.entities.User;
 import com.daniel.backend.usersapp.backend_usersapp.models.request.UserRequest;
 
 public interface UserService {
 
-    List<User> findAll();
+    List<UserDto> findAll();
 
-    Optional<User> findById(Long id);
+    Optional<UserDto> findById(Long id);
 
-    User save(User user);
-    Optional<User> update(UserRequest user, Long id);
+    UserDto save(User user);
+    Optional<UserDto> update(UserRequest user, Long id);
 
     void remove(Long id);
 }
