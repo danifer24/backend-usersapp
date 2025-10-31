@@ -1,6 +1,7 @@
 package com.daniel.backend.usersapp.backend_usersapp.auth.filters;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.daniel.backend.usersapp.backend_usersapp.models.entities.User;
@@ -60,7 +62,16 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         String username = ((org.springframework.security.core.userdetails.User) authResult.getPrincipal())
                 .getUsername();
-        String token = Jwts.builder().subject(username).signWith(SECRET_KEY).issuedAt(new Date())
+
+        Collection<? extends GrantedAuthority> roles = authResult.getAuthorities();
+        boolean isAdmin = roles.stream().anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("authorities", new ObjectMapper().writeValueAsString(roles));
+        claims.put("isAdmin", isAdmin);
+
+        String token = Jwts.builder().subject(username)
+                .claims(claims).signWith(SECRET_KEY)
+                .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + 3600000)).compact();
         response.addHeader(HEADER_AUTHORIZATION, PREFIX_TOKEN + token);
 
