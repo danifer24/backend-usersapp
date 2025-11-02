@@ -27,7 +27,7 @@ import com.daniel.backend.usersapp.backend_usersapp.services.UserService;
 import jakarta.validation.Valid;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(originPatterns = "*")
 @RequestMapping("/users")
 public class UserController {
 
