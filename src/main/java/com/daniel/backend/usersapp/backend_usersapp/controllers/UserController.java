@@ -28,7 +28,6 @@ import com.daniel.backend.usersapp.backend_usersapp.models.request.UserRequest;
 import com.daniel.backend.usersapp.backend_usersapp.services.UserService;
 
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
