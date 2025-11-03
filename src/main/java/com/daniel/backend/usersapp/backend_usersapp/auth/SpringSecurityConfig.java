@@ -1,13 +1,10 @@
 package com.daniel.backend.usersapp.backend_usersapp.auth;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -19,7 +16,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 import com.daniel.backend.usersapp.backend_usersapp.auth.filters.JwtAuthenticationFilter;
 import com.daniel.backend.usersapp.backend_usersapp.auth.filters.JwtValidationFilter;
@@ -27,14 +23,8 @@ import com.daniel.backend.usersapp.backend_usersapp.auth.filters.JwtValidationFi
 @Configuration
 public class SpringSecurityConfig {
 
-    private final CorsConfigurationSource corsConfigurationSource;
-
     @Autowired
     private AuthenticationConfiguration authenticationConfiguration;
-
-    SpringSecurityConfig(CorsConfigurationSource corsConfigurationSource) {
-        this.corsConfigurationSource = corsConfigurationSource;
-    }
 
     @Bean
     PasswordEncoder passwordEncoder() {
@@ -55,7 +45,7 @@ public class SpringSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/login").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/users").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/users", "/users/page/{page}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/users/{id}").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.POST, "/users").hasRole("ADMIN")
                         .requestMatchers("/users/**").hasRole("ADMIN")
